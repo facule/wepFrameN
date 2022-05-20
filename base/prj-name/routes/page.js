@@ -16,6 +16,10 @@ router.get('/profile', isLoggedIn, (req, res) => {
   res.render('profile', { title: 'Profile - prj-name' });
 });
 
+router.get('/map', isLoggedIn, (req, res) => {
+  res.render('map', { javascriptkey:process.env.javascriptkey });
+});
+
 router.get('/join', isNotLoggedIn, (req, res) => {
   res.render('join', { title: 'Join to - prj-name' });
 });
