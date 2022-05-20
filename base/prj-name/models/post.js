@@ -11,6 +11,10 @@ module.exports = class Post extends Sequelize.Model {
         type: Sequelize.STRING(200),
         allowNull: true,
       },
+      expose:{
+        type:Sequelize.INTEGER(1),
+        allowNull:false,
+      },
     }, {
       sequelize,
       timestamps: true,

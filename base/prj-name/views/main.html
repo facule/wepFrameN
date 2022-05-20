@@ -12,11 +12,21 @@
         <img id="img-preview" src="" style="display: none;" width="250" alt="미리보기">
         <input id="img-url" type="hidden" name="url">
       </div>
+      <div style="text-align: right;">
+        <label for="private_post" id="private_checkbox" onclick="onClickCheck()">
+          비공개로 게시
+          <input type="checkbox" name="input_check" value='0' id="input_check">
+          <input type="hidden" name="input_check" value='1' id="input_check_hidden" />
+
+        </label>
+      </div>
       <div>
         <label id="img-label" for="img">사진/영상 업로드</label>
         <input id="img" type="file" accept="image/*, video/*">
         <button id="twit-btn" type="submit" class="btn">짹짹</button>
       </div>
+
+
 
       <!-- <div>
         <label id="video-label" for="img">동영상 업로드</label>
@@ -32,6 +42,10 @@
       <button class="btn">검색</button>
     </form>
     {% for twit in twits %}
+    <!-- 비공개로 올리지 않은 게시글이면-->
+    <!-- if twit.expose == 1 -->
+
+    {% if twit.expose == 1 or followerIdList.includes(twit.User.id) or twit.User.id == user.id %}
     <div class="twit">
       <input type="hidden" value="{{twit.User.id}}" class="twit-user-id">
       <input type="hidden" value="{{twit.id}}" class="twit-id">
@@ -46,6 +60,8 @@
       <div class="twit-img"><img src="{{twit.img}}" alt="섬네일"></div>
       {% endif %}
     </div>
+    {% else %}
+    {% endif %}
     {% endfor %}
   </div>
 </div>
@@ -69,6 +85,17 @@
         });
     });
   }
+
+  function onClickCheck() {
+    if (document.getElementById("input_check").checked) {
+      document.getElementById("input_check_hidden").disabled = true;
+    }
+  }
+
+
+
+
+
   document.querySelectorAll('.twit-follow').forEach(function (tag) {
     tag.addEventListener('click', function () {
       const myId = document.querySelector('#my-id');
