@@ -15,14 +15,22 @@
       <div>
         <label id="img-label" for="img">사진/영상 업로드</label>
         <input id="img" type="file" accept="image/*, video/*">
+        <label id="map-label" for="map" onclick="appear()" >장소</label>
+        <script>
+          function appear() {
+            var con = document.getElementById("map-select");
+	          if(con.style.display=='none'){
+		          con.style.display = 'block';
+	          }else{
+		          con.style.display = 'none';
+	          }
+          }
+        </script>
+        <iframe id = "map-select" style="display:none;" src="./map" width="100%" height="300" scrolling="no"></iframe>
+        
         <button id="twit-btn" type="submit" class="btn">짹짹</button>
       </div>
 
-      <!-- <div>
-        <label id="video-label" for="img">동영상 업로드</label>
-        <input id="video" type="file" accept="video/*|">
-        <button id="twit-btn" type="submit" class="btn">짹짹</button>
-      </div> -->
     </form>
   </div>
   {% endif %}
