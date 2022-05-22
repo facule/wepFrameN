@@ -12,30 +12,45 @@
         <img id="img-preview" src="" style="display: none;" width="250" alt="미리보기">
         <input id="img-url" type="hidden" name="url">
       </div>
+      <div style="text-align: right;">
+        <label for="private_post" id="private_checkbox" onclick="onClickCheck()">
+          비공개로 게시
+          <input type="checkbox" name="input_check" value='0' id="input_check">
+          <input type="hidden" name="input_check" value='1' id="input_check_hidden" />
+
+        </label>
+      </div>
       <div>
         <label id="img-label" for="img">사진/영상 업로드</label>
         <input id="img" type="file" accept="image/*, video/*">
-        
+
         <div class="map-address">
-          <label id="map-label" for="map" onclick="appear()" >장소</label>
+          <label id="map-label" for="map" onclick="appear()">장소</label>
           <input type="hidden" id="placeName" name="placeName" value="">
           <script>
             function appear() {
               var con = document.getElementById("map-select");
-              if(con.style.display=='none'){
+              if (con.style.display == 'none') {
                 con.style.display = 'block';
-              }else{
+              } else {
                 con.style.display = 'none';
               }
             }
           </script>
           <iframe name="map-select" id="map-select" style="display:none;" src="./map" width="100%" height="400"
-          scrolling="no"></iframe>
+            scrolling="no"></iframe>
           <input id="placeMap" type="hidden" name="placeMap">
         </div>
         <button id="twit-btn" type="submit" class="btn">짹짹</button>
       </div>
 
+
+
+      <!-- <div>
+        <label id="video-label" for="img">동영상 업로드</label>
+        <input id="video" type="file" accept="video/*|">
+        <button id="twit-btn" type="submit" class="btn">짹짹</button>
+      </div> -->
     </form>
   </div>
   {% endif %}
@@ -45,10 +60,15 @@
       <button class="btn">검색</button>
     </form>
     {% for twit in twits %}
+    <!-- 비공개로 올리지 않은 게시글이면-->
+    <!-- if twit.expose == 1 -->
+
+    {% if twit.expose == 1 or followerIdList.includes(twit.User.id) or twit.User.id == user.id %}
     <div class="twit">
       <input type="hidden" value="{{twit.User.id}}" class="twit-user-id">
       <input type="hidden" value="{{twit.id}}" class="twit-id">
-      <div class="twit-author">{{twit.User.nick}}<br/>{{twit-img}}</div>
+      <div class="twit-author">{{twit.User.nick}}</div>
+      <div class="twit-map">{{twit.map}}<br></div>
       {% if not followerIdList.includes(twit.User.id) and twit.User.id !== user.id %}
       <button class="twit-follow">팔로우하기</button>
       {% endif %}
@@ -59,6 +79,8 @@
       <div class="twit-img"><img src="{{twit.img}}" alt="섬네일"></div>
       {% endif %}
     </div>
+    {% else %}
+    {% endif %}
     {% endfor %}
   </div>
 </div>
@@ -83,20 +105,33 @@
         });
     });
   }
-  // if (document.getElementById('map')) {
-  //   document.getElementById('map').addEventListener('change', function (e) {
-  //     const formData = new FormData();
-  //     formData.append('map', this.files[0]);
-  //     axios.post('/post/map', formData)
-  //       .then((res) => {
-  //         document.getElementById('map-address').src = res.data.url;
-  //         document.getElementById('placeName').value = res.data.url;
-  //       })
-  //       .catch((err) => {
-  //         console.error(err);
-  //       });
-  //   });
-  //}
+
+  function onClickCheck() {
+    if (document.getElementById("input_check").checked) {
+      document.getElementById("input_check_hidden").disabled = true;
+    }
+  }
+
+
+
+
+
+  if (document.getElementById('map')) {
+    document.getElementById('map').addEventListener('change', function (e) {
+      const formData = new FormData();
+      formData.append('map', this.files[0]);
+      axios.post('/post/map', formData)
+        .then((res) => {
+          document.getElementById('map-address').src = res.data.url;
+          document.getElementById('placeName').value = res.data.url;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    });
+  }
+
+
   document.querySelectorAll('.twit-follow').forEach(function (tag) {
     tag.addEventListener('click', function () {
       const myId = document.querySelector('#my-id');
@@ -116,5 +151,7 @@
       }
     });
   });
+
+
 </script>
 {% endblock %}

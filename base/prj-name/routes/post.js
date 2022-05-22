@@ -33,6 +33,11 @@ router.post('/img', isLoggedIn, upload.single('img'), (req, res) => {
   res.json({ url: `/img/${req.file.filename}` });
 });
 
+router.get('/map', isLoggedIn, (req, res) => {
+  res.render('map', { javascriptkey:process.env.javascriptkey });
+});
+
+
 const upload2 = multer();
 router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => {
   try {
@@ -40,9 +45,12 @@ router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => {
     const post = await Post.create({
       content: req.body.content,
       img: req.body.url,
+      expose : req.body.input_check,
       UserId: req.user.id,
       map : req.body.placeMap,
     });
+    
+    console.log(req.body.pname);
     const hashtags = req.body.content.match(/#[^\s#]*/g);
     if (hashtags) {
       const result = await Promise.all(

@@ -1,8 +1,8 @@
 const express = require('express');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 const { Post, User, Hashtag } = require('../models');
-
 const router = express.Router();
+const fs = require('fs');
 
 router.use((req, res, next) => {
   res.locals.user = req.user;
@@ -24,6 +24,7 @@ router.get('/join', isNotLoggedIn, (req, res) => {
   res.render('join', { title: 'Join to - prj-name' });
 });
 
+
 router.get('/', async (req, res, next) => {
   try {
     const posts = await Post.findAll({
@@ -42,6 +43,8 @@ router.get('/', async (req, res, next) => {
     next(err);
   }
 });
+
+
 
 router.get('/hashtag', async (req, res, next) => {
   const query = req.query.hashtag;
