@@ -15,19 +15,22 @@
       <div>
         <label id="img-label" for="img">사진/영상 업로드</label>
         <input id="img" type="file" accept="image/*, video/*">
-        <label id="map-label" for="map" onclick="appear()" >장소</label>
-        <script>
-          function appear() {
-            var con = document.getElementById("map-select");
-	          if(con.style.display=='none'){
-		          con.style.display = 'block';
-	          }else{
-		          con.style.display = 'none';
-	          }
-          }
-        </script>
-        <iframe id = "map-select" style="display:none;" src="./map" width="100%" height="300" scrolling="no"></iframe>
         
+        <div class="map-address">
+          <label id="map-label" for="map" onclick="appear()" >장소</label>
+          <input type="hidden" id="placeName" name="placeName" value="">
+          <script>
+            function appear() {
+              var con = document.getElementById("map-select");
+              if(con.style.display=='none'){
+                con.style.display = 'block';
+              }else{
+                con.style.display = 'none';
+              }
+            }
+          </script>
+          <iframe id = "map-select" style="display:none;" src="./map" width="100%" height="400" scrolling="no"></iframe>
+        </div>
         <button id="twit-btn" type="submit" class="btn">짹짹</button>
       </div>
 
@@ -43,7 +46,7 @@
     <div class="twit">
       <input type="hidden" value="{{twit.User.id}}" class="twit-user-id">
       <input type="hidden" value="{{twit.id}}" class="twit-id">
-      <div class="twit-author">{{twit.User.nick}}</div>
+      <div class="twit-author">{{twit.User.nick}}<br/>{{twit-img}}</div>
       {% if not followerIdList.includes(twit.User.id) and twit.User.id !== user.id %}
       <button class="twit-follow">팔로우하기</button>
       {% endif %}
@@ -71,6 +74,20 @@
           document.getElementById('img-url').value = res.data.url;
           document.getElementById('img-preview').src = res.data.url;
           document.getElementById('img-preview').style.display = 'inline';
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    });
+  }
+  if (document.getElementById('map')) {
+    document.getElementById('map').addEventListener('change', function (e) {
+      const formData = new FormData();
+      formData.append('map', this.files[0]);
+      axios.post('/post/map', formData)
+        .then((res) => {
+          document.getElementById('map-address').src = res.data.url;
+          document.getElementById('placeName').value = res.data.url;
         })
         .catch((err) => {
           console.error(err);
