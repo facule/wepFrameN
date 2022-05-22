@@ -29,7 +29,9 @@
               }
             }
           </script>
-          <iframe id = "map-select" style="display:none;" src="./map" width="100%" height="400" scrolling="no"></iframe>
+          <iframe name="map-select" id="map-select" style="display:none;" src="./map" width="100%" height="400"
+          scrolling="no"></iframe>
+          <input id="placeMap" type="hidden" name="placeMap">
         </div>
         <button id="twit-btn" type="submit" class="btn">짹짹</button>
       </div>
@@ -74,26 +76,27 @@
           document.getElementById('img-url').value = res.data.url;
           document.getElementById('img-preview').src = res.data.url;
           document.getElementById('img-preview').style.display = 'inline';
+          document.getElementById('fulladdress').value = res.data.pname;
         })
         .catch((err) => {
           console.error(err);
         });
     });
   }
-  if (document.getElementById('map')) {
-    document.getElementById('map').addEventListener('change', function (e) {
-      const formData = new FormData();
-      formData.append('map', this.files[0]);
-      axios.post('/post/map', formData)
-        .then((res) => {
-          document.getElementById('map-address').src = res.data.url;
-          document.getElementById('placeName').value = res.data.url;
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    });
-  }
+  // if (document.getElementById('map')) {
+  //   document.getElementById('map').addEventListener('change', function (e) {
+  //     const formData = new FormData();
+  //     formData.append('map', this.files[0]);
+  //     axios.post('/post/map', formData)
+  //       .then((res) => {
+  //         document.getElementById('map-address').src = res.data.url;
+  //         document.getElementById('placeName').value = res.data.url;
+  //       })
+  //       .catch((err) => {
+  //         console.error(err);
+  //       });
+  //   });
+  //}
   document.querySelectorAll('.twit-follow').forEach(function (tag) {
     tag.addEventListener('click', function () {
       const myId = document.querySelector('#my-id');

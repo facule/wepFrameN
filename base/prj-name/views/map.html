@@ -137,6 +137,8 @@
                                 }
                                 document.getElementById('latclick').value = plat;
                                 document.getElementById('lngclick').value = plng;
+
+                                parent.document.getElementById('placeMap').value = document.getElementById('fulladdress').value;
                             };
 
                             itemEl.onmouseover = function () {
@@ -261,6 +263,9 @@
                         el.removeChild(el.lastChild);
                     }
                 }
+
+
+
             </script>
 
             <div>
@@ -273,4 +278,5 @@
         </div>
     </form>
 </body>
+
 </html>
