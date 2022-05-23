@@ -3,6 +3,7 @@ const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 const { Post, User, Hashtag, Comment } = require('../models');
 
 const router = express.Router();
+const fs = require('fs');
 
 router.use((req, res, next) => {
   res.locals.user = req.user;
@@ -16,9 +17,14 @@ router.get('/profile', isLoggedIn, (req, res) => {
   res.render('profile', { title: 'Profile - prj-name' });
 });
 
+router.get('/map', isLoggedIn, (req, res) => {
+  res.render('map', { javascriptkey:process.env.javascriptkey });
+});
+
 router.get('/join', isNotLoggedIn, (req, res) => {
   res.render('join', { title: 'Join to - prj-name' });
 });
+
 
 router.get('/', async (req, res, next) => {
   try {
@@ -48,7 +54,31 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+
+
 router.get('/hashtag', async (req, res, next) => {
+  const query = req.query.hashtag;
+  if (!query) {
+    return res.redirect('/');
+  }
+  try {
+    const hashtag = await Hashtag.findOne({ where: { title: query } });
+    let posts = [];
+    if (hashtag) {
+      posts = await hashtag.getPosts({ include: [{ model: User }] });
+    }
+
+    return res.render('main', {
+      title: `${query} | NodeBird`,
+      twits: posts,
+    });
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+});
+
+router.get('/map', async (req, res, next) => {
   const query = req.query.hashtag;
   if (!query) {
     return res.redirect('/');
