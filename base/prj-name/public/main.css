@@ -1,5 +1,13 @@
+@font-face {
+  font-family: 'GangwonEdu_OTFBoldA';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 * {
   box-sizing: border-box;
+  font-family: 'GangwonEdu_OTFBoldA';
 }
 
 html,
@@ -74,6 +82,7 @@ textarea {
   display: inline-block;
   vertical-align: top;
   margin: 10px 0;
+
 }
 
 @media screen and (min-width: 800px) {
@@ -89,7 +98,7 @@ textarea {
   margin-right: 10px;
   border-radius: 4px;
   border: 1px solid silver;
-  background: lightcoral;
+  /* background: lightcoral; */
 }
 
 .user-name {
@@ -118,14 +127,27 @@ textarea {
 }
 
 #twit-form {
-  border-bottom: 1px solid silver;
+  border: 1px solid silver;
+  border-radius: 4px;
   padding: 10px;
   background: lightcoral;
   overflow: hidden;
 }
 
+.twit-author {
+  font-size: 20px;
+  padding: 15px 0 0 10px;
+}
+
+.twit-map {
+  color: rgb(46, 92, 162);
+  font-size: 14px;
+  padding-left: 10px;
+}
+
 #img-preview {
   max-width: 100%;
+  margin: 0px auto;
 }
 
 #img-label {
@@ -134,16 +156,22 @@ textarea {
   border-radius: 4px;
   border: 1px solid crimson;
   padding: 0 10px;
+  margin: 0 5px;
   color: white;
   font-size: 12px;
   height: 37px;
   line-height: 37px;
+
 }
 
 #img {
   display: none;
   width: 200px;
   height: 200px;
+}
+
+#div-buttons {
+  padding: 10px 0px;
 }
 
 #map-label {
@@ -173,10 +201,19 @@ textarea {
 .twit {
   border: 1px solid silver;
   border-radius: 4px;
+<<<<<<< HEAD
+  /* padding: 20px; */
+=======
   padding: 10px;
   padding-bottom:30px;
+>>>>>>> e49fd4211e1cd0d3ec5648ae25effbf19d6d267a
   position: relative;
   margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+
+.twit-info {
+  padding: 20px;
 }
 
 .twit-author {
@@ -186,29 +223,38 @@ textarea {
 }
 
 .twit-follow {
-  padding: 1px 5px;
+  padding: 2px 5px;
+  float: right;
+  margin: 12px;
   background: #fff;
   border: 1px solid silver;
   border-radius: 5px;
   color: crimson;
   font-size: 12px;
   cursor: pointer;
+
+}
+
+.twit-content {
+  padding-top: 10px;
+  padding: 10px;
 }
 
 .twit-img {
+  margin-top: 10px;
   text-align: center;
 }
 
 .twit-img img {
   /* max-width: 75%;
   max-height: 75%; */
-  width: 400px;
+  width: 100%;
   height: auto;
 }
 
 .twit-img video {
-  width: 400px;
-  height: 200px;
+  width: 100%;
+  height: auto;
 }
 
 .error-message {
@@ -227,10 +273,14 @@ textarea {
 
 #hashtag-form {
   text-align: right;
+  padding: 5px 0;
 }
 
 footer {
   text-align: center;
+<<<<<<< HEAD
+}
+=======
 }
 
 .comment_update_area{
@@ -251,3 +301,4 @@ footer {
   border: 1px solid silver;
   border-radius: 4px;
 }
+>>>>>>> e49fd4211e1cd0d3ec5648ae25effbf19d6d267a

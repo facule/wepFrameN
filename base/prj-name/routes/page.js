@@ -3,8 +3,7 @@ const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 const { Post, User, Hashtag, Comment } = require('../models');
 
 const router = express.Router();
-const fs = require('fs');
-
+var fs = require('fs');
 router.use((req, res, next) => {
   res.locals.user = req.user;
   res.locals.followerCount = req.user ? req.user.Followers.length : 0;
@@ -16,7 +15,6 @@ router.use((req, res, next) => {
 router.get('/profile', isLoggedIn, (req, res) => {
   res.render('profile', { title: 'Profile - prj-name' });
 });
-
 router.get('/map', isLoggedIn, (req, res) => {
   res.render('map', { javascriptkey:process.env.javascriptkey });
 });
@@ -48,6 +46,7 @@ router.get('/', async (req, res, next) => {
       title: 'prj-name',
       twits: posts,
     });
+
   } catch (err) {
     console.error(err);
     next(err);
@@ -98,6 +97,13 @@ router.get('/map', async (req, res, next) => {
     console.error(error);
     return next(error);
   }
+});
+
+router.get('/imgs',function(req,res){
+  fs.readFile("images/userprofile.png",function(error, data){
+    res.writeHead(200, {"Content-Type": 'text/html'});
+    res.end(data);
+  });
 });
 
 module.exports = router;
