@@ -48,6 +48,7 @@ router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => {
       expose : req.body.input_check,
       UserId: req.user.id,
       map : req.body.placeMap,
+      
     });
     
     const hashtags = req.body.content.match(/#[^\s#]*/g);
