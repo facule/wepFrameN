@@ -9,11 +9,12 @@ router.use((req, res, next) => {
   res.locals.followerCount = req.user ? req.user.Followers.length : 0;
   res.locals.followingCount = req.user ? req.user.Followings.length : 0;
   res.locals.followerIdList = req.user ? req.user.Followings.map(f => f.id) : [];
+  res.locals.LikedPost = req.user ? req.user.Postlike.map(f => f.id) : [];
   next();
 });
 
 router.get('/profile', isLoggedIn, (req, res) => {
-  res.render('profile', { title: 'Profile - prj-name' });
+  res.render('profile', { title: 'Profile - prj-name', user: req.user });
 });
 
 router.get('/join', isNotLoggedIn, (req, res) => {
@@ -23,10 +24,19 @@ router.get('/join', isNotLoggedIn, (req, res) => {
 router.get('/', async (req, res, next) => {
   try {
     const posts = await Post.findAll({
-      include: {
+      include: [{
         model: User,
         attributes: ['id', 'nick'],
       },
+
+       {
+        model: User,
+        attributes: ['id', 'nick'],
+        as: 'Likers',
+      }],
+    
+    
+
       order: [['createdAt', 'DESC']],
     });
     res.render('main', {
