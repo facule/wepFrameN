@@ -50,7 +50,6 @@ router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => {
       map : req.body.placeMap,
     });
     
-    console.log(req.body.pname);
     const hashtags = req.body.content.match(/#[^\s#]*/g);
     if (hashtags) {
       const result = await Promise.all(

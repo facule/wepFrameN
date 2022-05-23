@@ -20,7 +20,7 @@
 
         </label>
       </div>
-      <div>
+      <div id="div-buttons">
         <label id="img-label" for="img">사진/영상 업로드</label>
         <input id="img" type="file" accept="image/*, video/*">
 
@@ -67,17 +67,21 @@
     <div class="twit">
       <input type="hidden" value="{{twit.User.id}}" class="twit-user-id">
       <input type="hidden" value="{{twit.id}}" class="twit-id">
-      <div class="twit-map">{{twit.map}}<br></div>
-      <div class="twit-author">{{twit.User.nick}}<br />{{twit-img}}</div>
+
+      <div class="twit-author">{{twit.User.nick}}</div>
+      <!-- {{twit-img}} -->
       {% if not followerIdList.includes(twit.User.id) and twit.User.id !== user.id %}
       <button class="twit-follow">팔로우하기</button>
       {% endif %}
-      <div class="twit-content">{{twit.content}}</div>
+      <div class="twit-map">{{twit.map}}<br></div>
+
       {% if twit.img.split(".").pop()=='mp4' %}
       <div class="twit-img"><video src="{{twit.img}}" alt="비디오섬네일" controls autoplay loop muted></video></div>
       {% elif twit.img %}
       <div class="twit-img"><img src="{{twit.img}}" alt="섬네일"></div>
       {% endif %}
+
+      <div class="twit-content">{{twit.content}}</div>
     </div>
     {% else %}
     {% endif %}
