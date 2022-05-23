@@ -201,7 +201,12 @@ textarea {
 .twit {
   border: 1px solid silver;
   border-radius: 4px;
+<<<<<<< HEAD
   /* padding: 20px; */
+=======
+  padding: 10px;
+  padding-bottom:30px;
+>>>>>>> e49fd4211e1cd0d3ec5648ae25effbf19d6d267a
   position: relative;
   margin-bottom: 10px;
   padding-bottom: 10px;
@@ -273,4 +278,27 @@ textarea {
 
 footer {
   text-align: center;
+<<<<<<< HEAD
 }
+=======
+}
+
+.comment_update_area{
+  display: inline;
+}
+
+.comment_update_area.hide{
+  display: none;
+}
+
+
+.post_button_area{
+  float:right; 
+  display: inline-block;
+}
+
+.twit-comment-content{
+  border: 1px solid silver;
+  border-radius: 4px;
+}
+>>>>>>> e49fd4211e1cd0d3ec5648ae25effbf19d6d267a
