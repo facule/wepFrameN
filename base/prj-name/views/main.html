@@ -1,6 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+
 <div class="timeline">
   {% if user %}
   <div>
@@ -68,10 +69,12 @@
 
       <div class="twit-author">{{twit.User.nick}}</div>
       <!-- {{twit-img}} -->
+      {% if user %}
       {% if not followerIdList.includes(twit.User.id) and twit.User.id !== user.id %}
       <button class="twit-follow">팔로우하기</button>
       {% elif followerIdList.includes(twit.User.id) and twit.User.id !== user.id %}
       <button class="twit-unfollow">언팔로우하기</button>
+      {% endif %}
       {% endif %}
       <div class="twit-map">{{twit.map}}<br></div>
 
@@ -184,7 +187,22 @@
     });
   }
 
-
+  if (document.getElementById('img')) {
+    document.getElementById('img').addEventListener('change', function (e) {
+      const formData = new FormData();
+      console.log(this, this.files);
+      formData.append('img', this.files[0]);
+      axios.post('/post/img', formData)
+        .then((res) => {
+          document.getElementById('img-url').value = res.data.url;
+          document.getElementById('img-preview').src = res.data.url;
+          document.getElementById('img-preview').style.display = 'inline';
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    });
+  }
   document.querySelectorAll('.twit-follow').forEach(function (tag) {
     tag.addEventListener('click', function () {
       const myId = document.querySelector('#my-id');
@@ -200,10 +218,12 @@
                 console.error(err);
               });
           }
+
         }
       }
     });
   });
+
 
   /* 김현님 코드 부분 */
   document.querySelectorAll('.twit-unfollow').forEach(function (tag) {
@@ -294,5 +314,60 @@
         console.error(err);
       });
   }
+
+  document.querySelectorAll('.twit-unfollow').forEach(function (tag) {
+    tag.addEventListener('click', function () {
+      const myId = document.querySelector('#my-id');
+      if (myId) {
+        const userId = tag.parentNode.querySelector('.twit-user-id').value;
+        if (userId !== myId.value) {
+          if (confirm('팔로잉을 취소하시겠습니까?')) {
+            axios.post(`/user/${userId}/unfollow_twit`)
+              .then(() => {
+                location.reload();
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+          }
+        }
+      }
+    });
+  });
+
+  document.querySelectorAll('.like').forEach(function (tag) {
+    tag.addEventListener('click', function () {
+      const myId = document.querySelector('#my-id');
+      const postId = tag.parentNode.querySelector('.twit-id').value;
+      if (myId) {
+
+
+        axios.post(`/post/${postId}/like`)
+          .then(() => {
+            location.reload();
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+    });
+  });
+
+  document.querySelectorAll('.unlike').forEach(function (tag) {
+    tag.addEventListener('click', function () {
+      const myId = document.querySelector('#my-id');
+      const postId = tag.parentNode.querySelector('.twit-id').value;
+      if (myId) {
+
+        axios.delete(`/post/${postId}/unlike`)
+          .then(() => {
+            location.reload();
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+    });
+  });
 </script>
 {% endblock %}

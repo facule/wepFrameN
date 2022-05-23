@@ -50,6 +50,4 @@ router.post('/:id/unfollow_twit', isLoggedIn, async (req, res, next) => {
   }
 });
 
-
-
 module.exports = router;

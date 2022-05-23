@@ -150,7 +150,6 @@ router.post('/:id/update', isLoggedIn, upload2.none(), async (req, res, next) =>
 
 
 
-
 router.post('/:id/delete', isLoggedIn, async (req, res, next) => {
   try {
     var id = req.params.id;
@@ -166,6 +165,31 @@ router.post('/:id/delete', isLoggedIn, async (req, res, next) => {
     console.error(error);
     next(error);
   }
+});
+router.post('/:id/like', async (req, res, next) => {
+  try {
+  const post = await Post.findOne({ where: { id: req.params.id } });
+  await post.addLiker(req.user.id);
+  res.send('success');
+  }
+  catch (error) {
+
+    console.error(error);
+    next(error);
+  }
+});
+
+router.delete('/:id/unlike', async (req, res, next) => {
+  try {
+      const post = await Post.findOne({ where: { id: req.params.id } });
+      await post.removeLiker(req.user.id);
+      res.send('success');
+    }
+    catch (error) {
+      console.error(error);
+      next(error);
+    }
+
 });
 
 module.exports = router;

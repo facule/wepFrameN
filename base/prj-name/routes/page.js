@@ -14,7 +14,7 @@ router.use((req, res, next) => {
 });
 
 router.get('/profile', isLoggedIn, (req, res) => {
-  res.render('profile', { title: 'Profile - prj-name' });
+  res.render('profile', { title: 'Profile - prj-name', user: req.user });
 });
 router.get('/map', isLoggedIn, (req, res) => {
   res.render('map', { javascriptkey:process.env.javascriptkey });
