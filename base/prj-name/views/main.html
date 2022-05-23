@@ -70,6 +70,8 @@
       <!-- {{twit-img}} -->
       {% if not followerIdList.includes(twit.User.id) and twit.User.id !== user.id %}
       <button class="twit-follow">팔로우하기</button>
+      {% elif followerIdList.includes(twit.User.id) and twit.User.id !== user.id %}
+      <button class="twit-unfollow">언팔로우하기</button>
       {% endif %}
       <div class="twit-map">{{twit.map}}<br></div>
 
@@ -81,6 +83,13 @@
 
       <div class="twit-content">{{twit.content}}</div>
       <div name="twit_createAt">{{twit.createdAt}}</div>
+      {% if user%}
+      {% if not LikedPost.includes(twit.id) and twit.id !== user.id %}
+      <button class="like">♡ 좋아요</button>
+      {% else %}
+      <button class="unlike">♥ 좋아요 취소</button>
+      {% endif %}
+      {% endif %}
 
 
       <!-- 성권님 코드 -->
@@ -195,6 +204,67 @@
       }
     });
   });
+
+  /* 김현님 코드 부분 */
+  document.querySelectorAll('.twit-unfollow').forEach(function (tag) {
+    tag.addEventListener('click', function () {
+      const myId = document.querySelector('#my-id');
+      if (myId) {
+        const userId = tag.parentNode.querySelector('.twit-user-id').value;
+        if (userId !== myId.value) {
+          if (confirm('팔로잉을 취소하시겠습니까?')) {
+            axios.post(`/user/${userId}/unfollow_twit`)
+              .then(() => {
+                location.reload();
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+          }
+        }
+      }
+    });
+  });
+
+  document.querySelectorAll('.like').forEach(function (tag) {
+    tag.addEventListener('click', function () {
+      const myId = document.querySelector('#my-id');
+      const postId = tag.parentNode.querySelector('.twit-id').value;
+      if (myId) {
+
+
+        axios.post(`/post/${postId}/like`)
+          .then(() => {
+            location.reload();
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+    });
+  });
+
+  document.querySelectorAll('.unlike').forEach(function (tag) {
+    tag.addEventListener('click', function () {
+      const myId = document.querySelector('#my-id');
+      const postId = tag.parentNode.querySelector('.twit-id').value;
+      if (myId) {
+
+        axios.delete(`/post/${postId}/unlike`)
+          .then(() => {
+            location.reload();
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+    });
+  });
+
+  /* 김현님 코드 부분 */
+
+
+
 
   function commentUpdateButton(event) {
     var element = event.parentNode.previousElementSibling;

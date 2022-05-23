@@ -9,6 +9,7 @@ router.use((req, res, next) => {
   res.locals.followerCount = req.user ? req.user.Followers.length : 0;
   res.locals.followingCount = req.user ? req.user.Followings.length : 0;
   res.locals.followerIdList = req.user ? req.user.Followings.map(f => f.id) : [];
+  res.locals.LikedPost = req.user ? req.user.Postlike.map(f => f.id) : [];
   next();
 });
 
@@ -32,13 +33,20 @@ router.get('/', async (req, res, next) => {
           model: User,
           attributes: ['id', 'nick'],
         },
-        { model : Comment,
+        { 
+          model : Comment,
           attributes:['id','content','createdAt'],
           include:[{
             model:User,
             attributes:['id', 'nick']
-          }]
-        }
+          }],
+        },
+        {
+          model: User,
+          attributes: ['id', 'nick'],
+          as: 'Likers',
+        },
+  
       ],
       order: [['createdAt', 'DESC']],
     });
