@@ -70,11 +70,12 @@
       <div class="twit-author">{{twit.User.nick}}</div>
       <!-- {{twit-img}} -->
       {% if user %}  
-           
-                <button class="twit-follow">팔로우</button>
-            {% elif followerIdList.includes(twit.User.id) and twit.User.id !== user.id %}
-                <button class="twit-unfollow">언팔로우</button>
-            {% endif %} 
+      {% if not followerIdList.includes(twit.User.id) and twit.User.id !== user.id %}
+          <button class="twit-follow">팔로우</button>
+      {% elif followerIdList.includes(twit.User.id) and twit.User.id !== user.id %}
+          <button class="twit-unfollow">언팔로우</button>
+      {% endif %}
+    {% endif %}   
       <div class="twit-map">{{twit.map}}<br></div>
 
       {% if twit.img.split(".").pop()=='mp4' %}
@@ -186,9 +187,6 @@
     });
   }
 
-
-    
-  <script>
     if (document.getElementById('img')) {
       document.getElementById('img').addEventListener('change', function(e) {
         const formData = new FormData();
