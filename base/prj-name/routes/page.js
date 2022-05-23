@@ -1,6 +1,7 @@
 const express = require('express');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
-const { Post, User, Hashtag } = require('../models');
+const { Post, User, Hashtag, Comment } = require('../models');
+
 const router = express.Router();
 const fs = require('fs');
 
@@ -28,10 +29,19 @@ router.get('/join', isNotLoggedIn, (req, res) => {
 router.get('/', async (req, res, next) => {
   try {
     const posts = await Post.findAll({
-      include: {
-        model: User,
-        attributes: ['id', 'nick'],
-      },
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'nick'],
+        },
+        { model : Comment,
+          attributes:['id','content','createdAt'],
+          include:[{
+            model:User,
+            attributes:['id', 'nick']
+          }]
+        }
+      ],
       order: [['createdAt', 'DESC']],
     });
     res.render('main', {
