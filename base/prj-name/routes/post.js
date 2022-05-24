@@ -37,12 +37,16 @@ router.get('/map', isLoggedIn, (req, res) => {
   res.render('map', { javascriptkey:process.env.javascriptkey });
 });
 
+router.get('/:id/map', isLoggedIn, (req, res) => {
+  res.render('map', { javascriptkey:process.env.javascriptkey });
+});
+
+
 
 const upload2 = multer();
 router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => {
   try {
-    console.log(req.user);
-    await Post.create({
+    const post = await Post.create({
       content: req.body.content,
       img: req.body.url,
       expose : req.body.input_check,
@@ -126,7 +130,9 @@ router.post('/:id/update', isLoggedIn, upload2.none(), async (req, res, next) =>
     const post = await Post.update({
       content: req.body.content,
       img: req.body.url,
+      expose : req.body.input_check,
       UserId: req.user.id,
+      map : req.body.placeMap,
     },{
       where :  {id : req.params.id}
     });

@@ -126,7 +126,7 @@
       {% for aComment in twit.Comments %}
       <div class="twit-comment-content">
         <div>
-          <div style="font-size:15px;">{{user.nick}}&nbsp;&nbsp;&nbsp;{{aComment.content}}</div>
+          <div style="font-size:15px;">{{aComment.User.nick}}&nbsp;&nbsp;&nbsp;{{aComment.content}}</div>
           <div style="font-size:10px; float: right;">시간 : {{aComment.createdAt}}</div>
         </div>
         <!-- <span style="font-size:10px; float: right;">시간 : {{aComment.createdAt}}</span> -->
