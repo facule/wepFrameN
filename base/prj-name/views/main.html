@@ -1,5 +1,4 @@
 {% extends 'layout.html' %}
-
 {% block content %}
 
 <div class="timeline">
@@ -24,11 +23,11 @@
         <label id="img-label" for="img">사진/영상 업로드</label>
         <input id="img" type="file" accept="image/*, video/*">
         <div class="map-address">
-          <label id="map-label" for="map" onclick="appear()">장소</label>
+          <label id="map-label" for="map" onclick="appear('map-select')">장소</label>
           <input type="hidden" id="placeName" name="placeName" value="">
           <script>
-            function appear() {
-              var con = document.getElementById("map-select");
+            function appear(id) {
+              var con = document.getElementById(id);
               if (con.style.display == 'none') {
                 con.style.display = 'block';
               } else {
@@ -54,7 +53,7 @@
   </div>
   {% endif %}
   <div class="twits">
-    <form id="hashtag-form" action="/hashtag">
+    <form id="hashtag-form" action="/hashtag" style="text-align: center;">
       <input type="text" name="hashtag" placeholder="태그 검색">
       <button class="btn">검색</button>
     </form>
@@ -66,9 +65,8 @@
     <div class="twit">
       <input type="hidden" value="{{twit.User.id}}" class="twit-user-id">
       <input type="hidden" value="{{twit.id}}" class="twit-id">
-
       <div class="twit-author">{{twit.User.nick}}</div>
-      <!-- {{twit-img}} -->
+
       {% if user %}
       {% if not followerIdList.includes(twit.User.id) and twit.User.id !== user.id %}
       <button class="twit-follow">팔로우하기</button>
@@ -84,48 +82,20 @@
       <div class="twit-img"><img src="{{twit.img}}" alt="섬네일"></div>
       {% endif %}
 
-      <div class="twit-content">{{twit.content}}</div>
-      <div name="twit_createAt">{{twit.createdAt}}</div>
       {% if user%}
       {% if not LikedPost.includes(twit.id) and twit.id !== user.id %}
-      <button class="like">♡ 좋아요</button>
+      <button class="like">
+        <span class="span-like">좋아요</span>
+        <img class="twit-heart" src="icons/empty_heart.png" width="15px" height="15px">
+        {{PostlikeCount}}
+      </button>
       {% else %}
-      <button class="unlike">♥ 좋아요 취소</button>
+      <button class="unlike">
+        <span class="span-like">좋아요 취소</span>
+        <img class="twit-heart" src="icons/heart.png" width="15px" height="15px">
+        {{PostlikeCount}}
+      </button>
       {% endif %}
-      {% endif %}
-
-
-      <!-- 성권님 코드 -->
-      <div class="twit-comment-submit">
-        <form id="comment-form" action="comment/create" method="post">
-          <textarea name="content"></textarea>
-          <input type="hidden" name="currentUserId" value="{{user.id}}">
-          <input type="hidden" name="postId" value="{{twit.id}}">
-          <input type="submit" value="댓글 작성">
-        </form>
-      </div>
-      {% for aComment in twit.Comments %}
-      <div class="twit-comment-content">
-        <div>내용 : {{aComment.content}}</div>
-        <div>시간 : {{aComment.createdAt}}</div>
-        <div>닉네임 : {{aComment.User.nick}}</div>
-
-        {%if user %}
-        {%if aComment.User.id == user.id%}
-        <div class="comment_update_area hide">
-          <form action="comment/update" method="post">
-            <textarea name="comment_content"></textarea>
-            <input type="hidden" name="id" value="{{aComment.id}}">
-            <input type="submit" value="댓글 변경 완료"></button>
-          </form>
-          <button class="comment_update_cancel" onclick="commentUpdateCancelButton(this);">댓글 변경 취소</button>
-        </div>
-        <div><button name="comment_update" onclick="commentUpdateButton(this);">댓글 수정</button><button
-            name="comment_delete" onclick="commentDeleteButton('{{aComment.id}}')">댓글 삭제</button></div>
-        {% endif %}
-        {% endif %}
-      </div>
-      {% endfor %}
 
       {% if twit.User.id == user.id%}
       <div class="post_button_area">
@@ -135,6 +105,63 @@
         </div>
       </div>
       {% endif %}
+
+      {% endif %}
+      <div class="twit-content">{{twit.content}}</div>
+      <div class="twit-createdAt" name="twit-createdAt">{{twit.createdAt}}</div>
+
+      <hr>
+
+      <!-- 성권님 코드 -->
+      <div class="twit-comment-submit">
+        <form id="comment-form" action="comment/create" method="post">
+          <textarea name="content" class="comment_content" placeholder="댓글을 입력해주세요."></textarea>
+          <input type="hidden" name="currentUserId" value="{{user.id}}">
+          <input type="hidden" name="postId" value="{{twit.id}}">
+          <!-- <input type="submit" class="comment_btn" value="댓글 작성"> -->
+          <input type="image" value="댓글 작성 변경" src="icons/upload.png" height="32" width="32">
+        </form>
+      </div>
+
+      {% for aComment in twit.Comments %}
+      <div class="twit-comment-content">
+        <div>
+          <div style="font-size:15px;">{{user.nick}}&nbsp;&nbsp;&nbsp;{{aComment.content}}</div>
+          <div style="font-size:10px; float: right;">시간 : {{aComment.createdAt}}</div>
+        </div>
+        <!-- <span style="font-size:10px; float: right;">시간 : {{aComment.createdAt}}</span> -->
+
+
+        {%if user %}
+        {%if aComment.User.id == user.id%}
+        <div class="comment_update_area hide">
+          <form action="comment/update" method="post">
+            <textarea name="comment_content" class="comment_content" placeholder="변경할 댓글을 입력해주세요."></textarea>
+            <input type="hidden" name="id" value="{{aComment.id}}">
+            <input type="image" value="댓글 변경" src="icons/edit.png" height="32" width="32">
+            <!--comment_btn-->
+          </form>
+          <button class="comment_update_cancel" onclick="commentUpdateCancelButton(this);">댓글 수정
+            취소</button>
+          <button name="comment_delete" onclick="commentDeleteButton('{{aComment.id}}')">댓글 삭제</button>
+        </div>
+        <span>
+          <button name="comment_update" id="comment_update" onclick="commentUpdateButton(this);">ㄴ댓글 수정</button>
+        </span>
+        {% endif %}
+        {% endif %}
+      </div>
+      {% endfor %}
+
+
+      <!-- {% if twit.User.id == user.id%}
+      <div class="post_button_area">
+        <div>
+          <button name="post_update"><a href="/post/{{twit.id}}/update">글 수정</a></button>
+          <button name="post_delete" onclick="postDeleteButton('{{twit.id}}')">글 삭제</button>
+        </div>
+      </div>
+      {% endif %} -->
     </div>
     {% endif %}
     {% endfor %}
@@ -289,12 +316,18 @@
   function commentUpdateButton(event) {
     var element = event.parentNode.previousElementSibling;
     element.classList.remove("hide");
+    event.style.display = 'none';
   }
+
   function commentUpdateCancelButton(event) {
     console.log(event.parentNode);
     var element = event.parentNode;
+
     element.classList.add("hide");
+    document.getElementById("comment_update").style.display = 'block';
+
   }
+
   function postDeleteButton(id) {
     axios.post(`post/${id}/delete`)
       .then(() => {

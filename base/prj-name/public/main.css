@@ -32,13 +32,36 @@ body {
   font-size: 12px;
 }
 
+
+.comment_btn {
+  display: inline-block;
+  padding: 0 5px;
+  margin-top: 5px;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 5px;
+  background: rgba(28, 78, 176, 0.934);
+  border: 1px solid silver;
+  color: rgb(255, 255, 255);
+  height: 30px;
+  line-height: 30px;
+  vertical-align: top;
+  font-size: 12px;
+}
+
+input[type='image'] {
+  margin-bottom: 10px;
+}
+
 input[type='text'],
 input[type='email'],
 input[type='password'],
 textarea {
-  border-radius: 4px;
+  width: 85%;
+  border-radius: 20px;
   height: 37px;
   padding: 10px;
+
   border: 1px solid silver;
 }
 
@@ -104,6 +127,7 @@ textarea {
 .user-name {
   font-weight: bold;
   font-size: 18px;
+
 }
 
 .count {
@@ -130,7 +154,7 @@ textarea {
   border: 1px solid silver;
   border-radius: 4px;
   padding: 10px;
-  background: lightcoral;
+  background: rgba(65, 163, 215, 0.595);
   overflow: hidden;
 }
 
@@ -156,12 +180,12 @@ textarea {
   border-radius: 4px;
   border: 1px solid crimson;
   padding: 0 10px;
-  margin: 0 5px;
-  color: white;
+  margin-right: 3px;
+  color: crimson;
   font-size: 12px;
   height: 37px;
   line-height: 37px;
-
+  background: white;
 }
 
 #img {
@@ -180,10 +204,11 @@ textarea {
   border-radius: 4px;
   border: 1px solid crimson;
   padding: 0 10px;
-  color: white;
+  color: crimson;
   font-size: 12px;
   height: 37px;
   line-height: 37px;
+  background: white;
 }
 
 #twit {
@@ -220,7 +245,7 @@ textarea {
 }
 
 .twit-follow {
-  padding: 2px 5px;
+  padding: 3px 5px;
   float: right;
   margin: 12px;
   background: #fff;
@@ -232,9 +257,42 @@ textarea {
 
 }
 
+.twit-unfollow {
+  padding: 3px 5px;
+  float: right;
+  margin: 12px;
+  background: rgb(57, 57, 57);
+  border: 1px solid silver;
+  border-radius: 5px;
+  color: rgb(255, 255, 255);
+  font-size: 12px;
+  cursor: pointer;
+
+}
+
+
+
+.like,
+.unlike {
+  border: none;
+  background-color: transparent;
+
+}
+
+.span-like {
+  margin-bottom: 10px;
+  margin-left: 3px;
+}
+
 .twit-content {
   padding-top: 10px;
   padding: 10px;
+}
+
+.twit-createdAt {
+  margin: 8px;
+  font-size: 12px;
+  text-align: right;
 }
 
 .twit-img {
@@ -259,6 +317,7 @@ textarea {
   font-weight: bold;
 }
 
+
 #search-form {
   text-align: right;
 }
@@ -275,4 +334,64 @@ textarea {
 
 footer {
   text-align: center;
+}
+
+.comment_content {
+  width: 90%;
+  border-radius: 20px;
+  height: 37px;
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid silver;
+}
+
+.comment_edit_content {
+  width: 80%;
+  border-radius: 20px;
+  height: 37px;
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid silver;
+}
+
+.comment_update_area {
+  display: inline;
+}
+
+.comment_update_area.hide {
+  display: none;
+}
+
+
+
+.post_button_area {
+  float: right;
+  display: inline-block;
+  margin: 10px;
+}
+
+#comment_update,
+.post_button_area button,
+.comment_update_area button {
+  display: inline-block;
+  padding: 0 5px;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 4px;
+  background: rgb(234, 234, 234);
+  border: 1px solid silver;
+  color: crimson;
+  height: 30px;
+  line-height: 30px;
+  vertical-align: top;
+  font-size: 12px;
+
+}
+
+.twit-comment-content {
+  padding: 10px;
+}
+
+.twit-comment-submit {
+  padding: 10px;
 }

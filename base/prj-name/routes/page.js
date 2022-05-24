@@ -10,6 +10,10 @@ router.use((req, res, next) => {
   res.locals.followingCount = req.user ? req.user.Followings.length : 0;
   res.locals.followerIdList = req.user ? req.user.Followings.map(f => f.id) : [];
   res.locals.LikedPost = req.user ? req.user.Postlike.map(f => f.id) : [];
+
+  // var count = req.user.Postlike
+  // res.locals.PostlikeCount = req. ? req.user.Postlike.length : 0;
+  
   next();
 });
 
@@ -113,5 +117,6 @@ router.get('/imgs',function(req,res){
     res.end(data);
   });
 });
+
 
 module.exports = router;
