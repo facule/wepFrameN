@@ -16,7 +16,7 @@ router.post('/create', isLoggedIn, async (req, res, next) => {
       });
       res.redirect('/');
     } else {
-      res.status(404).send('no user');
+      res.status(404).send('내용을 추가해주세요.');
     }
   } catch (error) {
     console.error(error);
