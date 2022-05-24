@@ -52,7 +52,8 @@ router.post('/update', isLoggedIn, async (req, res, next) => {
         where : {id : req.body.id}
       });
       res.redirect('/');
-    } else {
+    }
+    else {
       res.status(404).send('no comment');
     }
   } catch (error) {

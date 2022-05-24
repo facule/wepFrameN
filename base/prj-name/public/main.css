@@ -1,5 +1,13 @@
+@font-face {
+  font-family: 'GangwonEdu_OTFBoldA';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 * {
   box-sizing: border-box;
+  font-family: 'GangwonEdu_OTFBoldA';
 }
 
 html,
@@ -24,13 +32,36 @@ body {
   font-size: 12px;
 }
 
+
+.comment_btn {
+  display: inline-block;
+  padding: 0 5px;
+  margin-top: 5px;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 5px;
+  background: rgba(28, 78, 176, 0.934);
+  border: 1px solid silver;
+  color: rgb(255, 255, 255);
+  height: 30px;
+  line-height: 30px;
+  vertical-align: top;
+  font-size: 12px;
+}
+
+input[type='image'] {
+  margin-bottom: 10px;
+}
+
 input[type='text'],
 input[type='email'],
 input[type='password'],
 textarea {
-  border-radius: 4px;
+  width: 85%;
+  border-radius: 20px;
   height: 37px;
   padding: 10px;
+
   border: 1px solid silver;
 }
 
@@ -74,6 +105,7 @@ textarea {
   display: inline-block;
   vertical-align: top;
   margin: 10px 0;
+
 }
 
 @media screen and (min-width: 800px) {
@@ -89,12 +121,13 @@ textarea {
   margin-right: 10px;
   border-radius: 4px;
   border: 1px solid silver;
-  background: lightcoral;
+  /* background: lightcoral; */
 }
 
 .user-name {
   font-weight: bold;
   font-size: 18px;
+
 }
 
 .count {
@@ -118,14 +151,27 @@ textarea {
 }
 
 #twit-form {
-  border-bottom: 1px solid silver;
+  border: 1px solid silver;
+  border-radius: 4px;
   padding: 10px;
-  background: lightcoral;
+  background: rgba(65, 163, 215, 0.595);
   overflow: hidden;
+}
+
+.twit-author {
+  font-size: 20px;
+  padding: 15px 0 0 10px;
+}
+
+.twit-map {
+  color: rgb(46, 92, 162);
+  font-size: 14px;
+  padding-left: 10px;
 }
 
 #img-preview {
   max-width: 100%;
+  margin: 0px auto;
 }
 
 #img-label {
@@ -134,16 +180,35 @@ textarea {
   border-radius: 4px;
   border: 1px solid crimson;
   padding: 0 10px;
-  color: white;
+  margin-right: 3px;
+  color: crimson;
   font-size: 12px;
   height: 37px;
   line-height: 37px;
+  background: white;
 }
 
 #img {
   display: none;
   width: 200px;
   height: 200px;
+}
+
+#div-buttons {
+  padding: 10px 0px;
+}
+
+#map-label {
+  float: left;
+  cursor: pointer;
+  border-radius: 4px;
+  border: 1px solid crimson;
+  padding: 0 10px;
+  color: crimson;
+  font-size: 12px;
+  height: 37px;
+  line-height: 37px;
+  background: white;
 }
 
 #twit {
@@ -161,10 +226,16 @@ textarea {
 .twit {
   border: 1px solid silver;
   border-radius: 4px;
-  padding: 10px;
-  padding-bottom:30px;
+  /* padding: 20px; */
+
+  padding-bottom: 30px;
   position: relative;
   margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+
+.twit-info {
+  padding: 20px;
 }
 
 .twit-author {
@@ -174,35 +245,78 @@ textarea {
 }
 
 .twit-follow {
-  padding: 1px 5px;
+  padding: 3px 5px;
+  float: right;
+  margin: 12px;
   background: #fff;
   border: 1px solid silver;
   border-radius: 5px;
   color: crimson;
   font-size: 12px;
   cursor: pointer;
+
+}
+
+.twit-unfollow {
+  padding: 3px 5px;
+  float: right;
+  margin: 12px;
+  background: rgb(57, 57, 57);
+  border: 1px solid silver;
+  border-radius: 5px;
+  color: rgb(255, 255, 255);
+  font-size: 12px;
+  cursor: pointer;
+
+}
+
+
+
+.like,
+.unlike {
+  border: none;
+  background-color: transparent;
+
+}
+
+.span-like {
+  margin-bottom: 10px;
+  margin-left: 3px;
+}
+
+.twit-content {
+  padding-top: 10px;
+  padding: 10px;
+}
+
+.twit-createdAt {
+  margin: 8px;
+  font-size: 12px;
+  text-align: right;
 }
 
 .twit-img {
+  margin-top: 10px;
   text-align: center;
 }
 
 .twit-img img {
   /* max-width: 75%;
   max-height: 75%; */
-  width: 400px;
+  width: 100%;
   height: auto;
 }
 
 .twit-img video {
-  width: 400px;
-  height: 200px;
+  width: 100%;
+  height: auto;
 }
 
 .error-message {
   color: red;
   font-weight: bold;
 }
+
 
 #search-form {
   text-align: right;
@@ -215,27 +329,69 @@ textarea {
 
 #hashtag-form {
   text-align: right;
+  padding: 5px 0;
 }
 
 footer {
   text-align: center;
 }
 
-.comment_update_area{
+.comment_content {
+  width: 90%;
+  border-radius: 20px;
+  height: 37px;
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid silver;
+}
+
+.comment_edit_content {
+  width: 80%;
+  border-radius: 20px;
+  height: 37px;
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid silver;
+}
+
+.comment_update_area {
   display: inline;
 }
 
-.comment_update_area.hide{
+.comment_update_area.hide {
   display: none;
 }
 
 
-.post_button_area{
-  float:right; 
+
+.post_button_area {
+  float: right;
   display: inline-block;
+  margin: 10px;
 }
 
-.twit-comment-content{
-  border: 1px solid silver;
+#comment_update,
+.post_button_area button,
+.comment_update_area button {
+  display: inline-block;
+  padding: 0 5px;
+  text-decoration: none;
+  cursor: pointer;
   border-radius: 4px;
+  background: rgb(234, 234, 234);
+  border: 1px solid silver;
+  color: crimson;
+  height: 30px;
+  line-height: 30px;
+  vertical-align: top;
+  font-size: 12px;
+
+}
+
+.twit-comment-content {
+  padding: 10px;
+}
+
+.twit-comment-submit {
+  padding: 10px;
 }

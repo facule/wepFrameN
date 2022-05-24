@@ -20,4 +20,34 @@ router.post('/:id/follow', isLoggedIn, async (req, res, next) => {
   }
 });
 
+router.post('/:id/unfollow', isLoggedIn, async (req, res, next) => {
+  try {
+    const user = await User.findOne({ where: { nick: req.params.id } });
+    if (user) {
+      await user.removeFollower(parseInt(req.user.id, 10));
+      res.send('success');
+    } else {
+      res.status(404).send('no user');
+    }
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.post('/:id/unfollow_twit', isLoggedIn, async (req, res, next) => {
+  try {
+    const user = await User.findOne({ where: { id: req.params.id } });
+    if (user) {
+      await user.removeFollower(parseInt(req.user.id, 10));
+      res.send('success');
+    } else {
+      res.status(404).send('no user');
+    }
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 module.exports = router;

@@ -3,22 +3,31 @@ const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 const { Post, User, Hashtag, Comment } = require('../models');
 
 const router = express.Router();
-
+var fs = require('fs');
 router.use((req, res, next) => {
   res.locals.user = req.user;
   res.locals.followerCount = req.user ? req.user.Followers.length : 0;
   res.locals.followingCount = req.user ? req.user.Followings.length : 0;
   res.locals.followerIdList = req.user ? req.user.Followings.map(f => f.id) : [];
+  res.locals.LikedPost = req.user ? req.user.Postlike.map(f => f.id) : [];
+
+  // var count = req.user.Postlike
+  // res.locals.PostlikeCount = req. ? req.user.Postlike.length : 0;
+  
   next();
 });
 
 router.get('/profile', isLoggedIn, (req, res) => {
-  res.render('profile', { title: 'Profile - prj-name' });
+  res.render('profile', { title: 'Profile - prj-name', user: req.user });
+});
+router.get('/map', isLoggedIn, (req, res) => {
+  res.render('map', { javascriptkey:process.env.javascriptkey });
 });
 
 router.get('/join', isNotLoggedIn, (req, res) => {
   res.render('join', { title: 'Join to - prj-name' });
 });
+
 
 router.get('/', async (req, res, next) => {
   try {
@@ -28,13 +37,20 @@ router.get('/', async (req, res, next) => {
           model: User,
           attributes: ['id', 'nick'],
         },
-        { model : Comment,
+        { 
+          model : Comment,
           attributes:['id','content','createdAt'],
           include:[{
             model:User,
             attributes:['id', 'nick']
-          }]
-        }
+          }],
+        },
+        {
+          model: User,
+          attributes: ['id', 'nick'],
+          as: 'Likers',
+        },
+  
       ],
       order: [['createdAt', 'DESC']],
     });
@@ -42,11 +58,14 @@ router.get('/', async (req, res, next) => {
       title: 'prj-name',
       twits: posts,
     });
+
   } catch (err) {
     console.error(err);
     next(err);
   }
 });
+
+
 
 router.get('/hashtag', async (req, res, next) => {
   const query = req.query.hashtag;
@@ -69,5 +88,35 @@ router.get('/hashtag', async (req, res, next) => {
     return next(error);
   }
 });
+
+router.get('/map', async (req, res, next) => {
+  const query = req.query.hashtag;
+  if (!query) {
+    return res.redirect('/');
+  }
+  try {
+    const hashtag = await Hashtag.findOne({ where: { title: query } });
+    let posts = [];
+    if (hashtag) {
+      posts = await hashtag.getPosts({ include: [{ model: User }] });
+    }
+
+    return res.render('main', {
+      title: `${query} | NodeBird`,
+      twits: posts,
+    });
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+});
+
+router.get('/imgs',function(req,res){
+  fs.readFile("images/userprofile.png",function(error, data){
+    res.writeHead(200, {"Content-Type": 'text/html'});
+    res.end(data);
+  });
+});
+
 
 module.exports = router;
