@@ -145,7 +145,8 @@ router.post('/:id/update', isLoggedIn, upload2.none(), async (req, res, next) =>
           })
         }),
       );
-      await post.addHashtags(result.map(r => r[0]));
+      post2 = await Post.findOne({ where: { id: req.params.id } });
+      await post2.addHashtags(result.map(r => r[0]));
     }
     res.redirect('/');
   } catch (error) {

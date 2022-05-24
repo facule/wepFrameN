@@ -41,7 +41,7 @@
           scrolling="no"></iframe>
         <input id="placeMap" type="hidden" name="placeMap">
       </div>
-      <button id="twit-btn" type="submit" class="btn">짹짹</button>
+      <button id="twit-btn" type="submit" class="btn">글 수정</button>
     </div>
 
   </form>
@@ -51,12 +51,23 @@
 
 {% block script %}
 <script>
-  var img = '{{twit.img}}';
-  if (img != null && img != '' && typeof img != 'undefined') {
-    document.getElementById('img-url').value = img;
-    document.getElementById('img-preview').src = img;
-    document.getElementById('img-preview').style.display = 'inline';
-  }
+  var img = '{{twits[0].img}}';
+    if(img != null && img != '' && typeof img != 'undefined'){
+        document.getElementById('img-url').value = img;
+        document.getElementById('img-preview').src = img;
+        document.getElementById('img-preview').style.display = 'inline';
+    }
+
+    var map = '{{twits[0].map}}';
+    if(map != null && map != '' && typeof map != 'undefined'){
+      document.getElementById('placeMap').value = map;
+    }
+
+    var checked = '{{twits[0].expose}}';
+    if(checked == false){
+      document.getElementById("input_check").checked = true;
+      onClickCheck();
+    }
 
   if (document.getElementById('img')) {
     document.getElementById('img').addEventListener('change', function (e) {
@@ -68,6 +79,7 @@
           document.getElementById('img-url').value = res.data.url;
           document.getElementById('img-preview').src = res.data.url;
           document.getElementById('img-preview').style.display = 'inline';
+          document.getElementById('fulladdress').value = res.data.pname;
         })
         .catch((err) => {
           console.error(err);
@@ -81,5 +93,22 @@
       document.getElementById("input_check_hidden").disabled = true;
     }
   }
+
+  if (document.getElementById('map')) {
+    document.getElementById('map').addEventListener('change', function (e) {
+      const formData = new FormData();
+      formData.append('map', this.files[0]);
+      axios.post('/post/map', formData)
+        .then((res) => {
+          console.log(res);
+          document.getElementById('map-address').src = res.data.url;
+          document.getElementById('placeName').value = res.data.url;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    });
+  }
+
 </script>
 {% endblock %}
